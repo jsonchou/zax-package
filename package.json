@@ -1,6 +1,6 @@
 {
     "name": "zax-package",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "description": "zax package",
     "main": "index.js",
     "scripts": {
@@ -31,5 +31,5 @@
     "homepage": "https://github.com/jsonchou/zax-package",
     "author": "jsonchou",
     "license": "MIT",
-    "private": true
+    "private": false
 }
