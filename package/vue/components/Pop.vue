@@ -29,11 +29,6 @@ export default {
       verifycode: '',
       username: '',
       mobile: '',
-      rdm1: Math.floor(Math.random() * 5),
-      rdm2: Math.floor(Math.random() * 4),
-      prizeCode: '',
-      prizeId: '',
-      prizeName: '',
     }
   },
   vuex: {
@@ -59,27 +54,14 @@ export default {
     closePop(e) {
       let me = this;
       let tag = e.target.dataset.tag;
-      this.setPopStatus(tag, false);
-      if (tag == 'address') {
-        router.replace({
-          name: 'spree'
-        })
-      } else if (tag == 'other') {
-        router.push({
-          name: 'index'
-        })
-      }
+      me.setPopStatus(tag, false);
     },
     onOpenUrl(e) {
       let me = this;
       let tar = e.currentTarget.dataset.tag;
       let url = e.currentTarget.dataset.url;
-      if (me.getLottery) {
-        me.setPopStatus("send", false);
-        me.setPopStatus("share", true);
-      } else {
-        location.href = url;
-      }
+      
+      location.href = url;
     },
     onLogin() {
       let me = this;
@@ -134,25 +116,15 @@ export default {
       }
 
     },
-    openBag(e) {
-      let me = this;
-      _zax.ui.loading.show();
-      me.setPopStatus('notred', false);
-
-      me.service.upsDraw(me);
-    }
-
   },
   created() {
     let me = this;
     if (me.cfg.machine.indexOf('test') > -1) {
       me.verifycode = '999999';
     }
-
   },
   beforeDestory() {
     let me = this;
-
   }
 }
 </script>
