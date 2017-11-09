@@ -9,9 +9,16 @@ import service from './api/service'
 
 import router from './router/__routerMode__'
 
-config.bizOrigin = _util.url.get('bizOrigin') || _util.url.get('bizorigin') || 'APP517dxzp';
-config.activityCode = _util.url.get('activityCode') || _util.url.get('activitycode') || 'cpgj';
-config.appUrl += config.bizOrigin;
+config.bizOrigin = _util.url.get('bizOrigin') || _util.url.get('bizorigin') || config.bizOrigin;
+config.activityCode = _util.url.get('activityCode') || _util.url.get('activitycode') || config.activityCode;
+config.appUrl += config.bizOrigin.toUpperCase();
+config.antifraud.tail.bizOrigin = config.bizOrigin;
+config.antifraud.tail.activityCode = config.activityCode;
+
+_zax.biz.antifraud(true, config.antifraud.provider, "webactivity", config.env, config.activityCode, () => {
+    let tail = config.antifraud.provider == 'seraph' ? { seraph_did: $('#seraph_did').val(), seraph_token: $('#seraph_token').val() } : { afs_scene: $('#afs_scene').val(), afs_token: $('#afs_token').val() }
+    $.extend(config.antifraud.tail, tail)
+});
 
 //全局注入
 Vue.prototype.cfg = config
@@ -23,14 +30,14 @@ Vue.use(VueRouter)
 
 //how to regist a config to global?
 
-//载入spa环境配置
-config.bizOrigin = _util.url.get('bizOrigin') || _util.url.get('bizorigin') || 'APP517dxzp';
-config.activityCode = _util.url.get('activityCode') || _util.url.get('activitycode') || 'cpgj';
-config.appUrl += config.bizOrigin;
-
 router.beforeEach((to, from, next) => {
     //let ck = _zax.cookie.get(vconfig.prefix + 'openindex');
+    
+    store.dispatch('POP_STATUS', 'login', false);
+    store.dispatch('WEIXIN_MASK', false);
+    
     _zax.ui.mask.hide();
+    _zax.ui.loading.hide();
     $('.ui-confirm').remove();
     //$('.ui-confirm').removeClass('ui-confirm-on');
     // if (ck) {
