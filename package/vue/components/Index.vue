@@ -66,7 +66,7 @@ export default {
     onPop(e) {
       let me = this;
       let tag = e.target.dataset.tag;
-      this.setPopStatus(tag, true);
+      me.setPopStatus(tag, true);
     }
   },
   created() {
@@ -84,7 +84,6 @@ export default {
     me.setPopStatus('login', false);
     //优惠券 弹窗
     me.setWeixinMask(false);
-    clearInterval(lampTimer);
   }
 }
 </script>
