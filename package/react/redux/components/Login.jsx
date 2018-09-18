@@ -13,9 +13,8 @@ class Login extends PureComponent {
     loging = false; // 是否点击了登陆按钮并且登陆数据还未返回
 
     componentDidMount() {
-        let me = this;
-        if (me.cfg.machine.indexOf('test') > -1) {
-            me.setState({
+        if (this.cfg.machine.indexOf('test') > -1) {
+            this.setState({
                 phone: '13472792921',
                 code: '999999'
             });
@@ -42,13 +41,12 @@ class Login extends PureComponent {
 
     // 点击获取验证码
     handleGetCode = () => {
-        let me = this;
-        let { ticker } = me.state;
-        if( !ticker.includes('s') && me.verify(['phone']) ) {
-            me.setState({
+        let { ticker } = this.state;
+        if( !ticker.includes('s') && this.verify(['phone']) ) {
+            this.setState({
                 ticker: '60 s'
             }, async () => {
-                let { ticker } = me.state;
+                let { ticker } = this.state;
                 // 开始倒计时
                 this.iv = setInterval(()=>{
                     const tk = parseInt(ticker.replace(' s', ''));
@@ -58,13 +56,13 @@ class Login extends PureComponent {
                         ticker = '获取验证码'
                         clearInterval(this.iv);
                     }
-                    me.setState({
+                    this.setState({
                         ticker
                     });
                 }, 1000);
                 // 发送验证码
                 try {
-                    const res = await me.service.getVerifyCode(me, me.state.phone);
+                    const res = await this.service.getVerifyCode.call( this, this.state.phone );
                     console.log(res);
                 } catch(e) {
                     console.log(e);
@@ -75,29 +73,28 @@ class Login extends PureComponent {
 
     // 点击登录
     handleLogin = async () => {
-        let me = this;
-        if( me.verify(['phone', 'code']) ) {
+        if( this.verify(['phone', 'code']) ) {
 
-            if(me.loging) {
+            if(this.loging) {
                 return ;
             }
             _zax.ui.loading.show( '登录中...', 10000 );
-            me.loging = true;
+            this.loging = true;
 
             const { phone, code } = this.state; 
             let o = {};
             try {
-                const res = await me.service.userLogin(me, phone, code);
+                const res = await this.service.userLogin.call( this, phone, code );
                 o = res.value;
             } catch(e) {
                 // console.log(e);
             }
 
             _zax.ui.loading.hide();
-            me.loging = false;
+            this.loging = false;
 
             if(Object.keys(o).length > 0) {
-                const { setUserCode, setPopStatus, setExecLoginCallback } = me.props;
+                const { setUserCode, setPopStatus, setExecLoginCallback } = this.props;
                 setUserCode(o.token || '');
                 setPopStatus({
                     login: false
@@ -142,12 +139,12 @@ class Login extends PureComponent {
                         <li>
                             <input
                                 value={phone} 
-                                onChange={(e) => { this.handleChange(e, 'phone') }} 
-                                type="tel" 
+                                onChange={(e) => { this.handleChange(e, 'phone') }}
+                                type="tel"
                                 name="mobile" 
-                                autoComplete="off" 
-                                maxLength="11" 
-                                placeholder="输入手机号" 
+                                autoComplete="off"
+                                maxLength="11"
+                                placeholder="输入手机号"
                             />
                         </li> 
                         <li>
