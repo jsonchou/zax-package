@@ -12,15 +12,14 @@ class AppPage extends PureComponent {
     componentDidMount() {
         console.log('AppPage did mount');
         // 初始化微信分享
-        this.initShare();
+        this.initShare.call(this);
         // 显示前端免责声明
         this.showFdTips();
     }
 
     showFdTips() {
-        let me = this;
-        if (!me.cfg.bizOrigin) {
-            if (me.cfg.debug && (location.href.indexOf('-uat') > -1 || location.href.indexOf('-test') > -1)) {
+        if (!this.cfg.bizOrigin) {
+            if (this.cfg.debug && (location.href.indexOf('-uat') > -1 || location.href.indexOf('-test') > -1)) {
                 _zax.ui.confirm(
                     `
                         <h1 class="f35 lh2 mb10">前端免责声明</h1>

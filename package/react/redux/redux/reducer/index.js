@@ -20,14 +20,15 @@ Object.keys(states).forEach(key=>{
                 //弹出app默认登录框，app拦截
                 //强制返回时，继续拦截
                 location.href = `https://login.zhongan.com/mobile/login.htm?sourceApp=8&v=${Date.now()}&target=${location.href}`
-            }
-            if( _zax.device.weixin && inlogin && !_zax.cookie.get(config.token) && !_zax.cookie.get(storage.cookieNames.dmAccountTicket) ) {
-                _zax.ui.loading.show('跳转微信授权中...', 1000, ()=>{
-                    let url = location.href;
-                    url = util.url.set(url, 'channel', config.channelId);
-                    url = encodeURIComponent(url);
-                    location.href = `${config.wxAuthApi}?url=${url}&env=${config.wxenv}`;
-                });
+            } else if(_zax.device.weixin && inlogin) {
+                if(_zax.cookie.get(config.token) && !_zax.cookie.get(storage.cookieNames.dmAccountTicket) ) {
+                    _zax.ui.loading.show('跳转微信授权中...', 1000, ()=>{
+                        let url = location.href;
+                        url = util.url.set(url, 'channel', config.channelId);
+                        url = encodeURIComponent(url);
+                        location.href = `${config.wxAuthApi}?url=${url}&env=${config.wxenv}`;
+                    });
+                }
             }
             return { ...state, ...payload };
         } else {

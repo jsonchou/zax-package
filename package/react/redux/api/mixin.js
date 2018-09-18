@@ -2,46 +2,48 @@ export default {
     _shareSuccess() { // 分享成功的回调
         console.log('分享成功');
     },
-    initShare() { // 微信分享初始化
+    async initShare() { // 微信分享初始化
         if (_zax.device.weixin || _zax.device.app) {
-            let me = this;
-            me.service.shareConfig(me, cfg => {
-                cfg.success = cfg._shareSuccess;
-                me.Share.init(cfg);
-            });
+            try {
+                let { value: cfg } = await this.service.shareConfig.call(this);
+                this.props.setShareInfo(cfg);
+                cfg.success = this._shareSuccess;
+                this.Share.init(cfg);
+            } catch(e) {
+                console.error('初始化分享失败:' , e );
+            }
         }
     },
     onShare(e, shareInfoExt = {}) {
         // 简单分享提示
-        let me = this;
         let {
             shareInfo,
-        } = me.props;
+        } = this.props;
 
         let {
             tag
         } = e.currentTarget.dataset;
-        tag && me.props.setPopStatus({
+        tag && this.props.setPopStatus({
             [tag]: false
         }); // 点击分享关闭弹窗
 
         if (_zax.device.weixin) {
             //mask tip
-            me.Share.init({
+            this.Share.init({
                 ...shareInfo,
                 success() {
-                    me._shareSuccess();
+                    this._shareSuccess();
                 },
                 ...shareInfoExt,
             });
-            me.props.setPopStatus({
+            this.props.setPopStatus({
                 'weixinmask': true
             });
         } else if (_zax.device.app) {
-            me.Share.popView({
+            this.Share.popView({
                 ...shareInfo,
                 success() {
-                    me._shareSuccess();
+                    this._shareSuccess();
                 },
                 ...shareInfoExt,
             });
@@ -50,24 +52,20 @@ export default {
         }
     },
     _wxQuietAuth() { // 微信自动寂静默授权
-        let me = this;
         if (_zax.device.weixin) {
             let url = location.href;
-            url = _util.url.set(url, 'channel', me.cfg.channelId);
-            // url = encodeURIComponent(url.replace(/\#\//gi, ''));
+            url = _util.url.set(url, 'channel', this.cfg.channelId);
             url = encodeURIComponent(url);
-            let wxurl = `${me.cfg.wxQuietAuthApi}?url=${url}&env=${me.cfg.wxenv}`;
+            let wxurl = `${this.cfg.wxQuietAuthApi}?url=${url}&env=${this.cfg.wxenv}`;
             location.href = wxurl;
         }
     },
     _wxAuth() {//微信界面手动授权
-        let me = this;
         if (_zax.device.weixin) {
             let url = location.href;
-            url = _util.url.set(url, 'channel', me.cfg.channelId);
-            // url = encodeURIComponent(url.replace(/\#\//gi, ''));
+            url = _util.url.set(url, 'channel', this.cfg.channelId);
             url = encodeURIComponent(url);
-            let wxurl = `${me.cfg.wxAuthApi}?url=${url}&env=${me.cfg.wxenv}`;
+            let wxurl = `${this.cfg.wxAuthApi}?url=${url}&env=${this.cfg.wxenv}`;
             location.href = wxurl;
         }
     },
