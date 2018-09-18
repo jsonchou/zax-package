@@ -1,0 +1,25 @@
+@keyframes opacity-enter {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.opacity-enter {
+    animation: opacity-enter .3s forwards;
+}
+
+@keyframes transition-enter {
+    from {
+        transform: translate3d(-50%, -300%, 0);
+    }
+    to {
+        transform: translate3d(-50%, -50%, 0);
+    }
+}
+
+.transition-enter {
+    animation: transition-enter .3s ease-in-out forwards;
+}

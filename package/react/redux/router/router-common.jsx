@@ -1,22 +1,14 @@
-import index from '../containers/Index'
-import topic from '../containers/Topic'
-import test from '../containers/Test'
+import IndexPage from '../pages/Index';
 
 const routes = [
     {
         path: '/',
+        page: 'index',
+        meta: {
+            title: ""
+        },
         exact: true,
-        component: index
-    },
-    {
-        path: '/topic',
-        exact: false,
-        component: topic
-    },
-    {
-        path: '/test',
-        exact: false,
-        component: test
+        component: IndexPage
     }
 ];
 

@@ -1,104 +1,104 @@
 const sysinfo = 'server api crashed';
 
 export default {
+    ajaxCommon(me, params = {
+        url: '',
+        method: 'GET',
+        data: {},
+    }) {
+        return new Promise((resolve, reject) => {
+            let data = Object.assign({}, me.cfg.antifraud.tail, params.data);
+            $.ajax({
+                url: params.url,
+                type: params.type || params.method || 'GET',
+                dataType: params.dataType || 'json',
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
+                data,
+            }).done((res) => {
+                let {
+                    code,
+                } = res;
+                if (res.isSuccess || res.success) {
+                    resolve(res);
+                } else if (code === 'C313' || code === 'C303' || code === 'C304') { // 活动已结束、下架
+                    _zax.ui.toast(res.msg || res.message);
+                    reject(res);
+                } else {
+                    res.message && _zax.ui.toast(res.message);
+                    reject(res);
+                }
+            }).fail((res) => {
+                me.cfg.debug ? _zax.ui.toast(sysinfo) : console.log(res)
+                reject(res);
+            });
+        })
+    },
     shareConfig(me, cb) {
         //分享前置信息
         if (_zax.device.app || _zax.device.weixin) {
-            let wxcb = {
-                success: function(res) {
-                    //_zax.ui.confirm('如果收到，表示JS桥接success没问题');
-                },
-                cancel: function(res) {
-                    //_zax.ui.toast('cancel:' + JSON.stringify(res) + _zax.cookie.get('zaLoginCookieKey'));
-                    //_zax.ui.confirm('如果收到，表示JS桥接cancel没问题');
-                },
-                complete: function(res) {
-                    //_zax.ui.toast('complete:' + JSON.stringify(res) + _zax.cookie.get('zaLoginCookieKey'));
-                    _zax.ui.mask.hide();
-                    me.setPopStatus('weixinmask', false);
-                },
-            };
+            let params = $.extend({}, me.cfg.antifraud.tail);
+
             $.ajax({
-                url: '/baseScreen/getShareLink.json',
-                type: 'GET',
+                url: me.cfg.boxApi + '/mgm/getShareInfo',
+                type: 'POST',
                 dataType: 'json',
-                data: {
-                    afs_scene: $('#afs_scene').val(),
-                    afs_token: $('#afs_token').val(),
-                    activityCode: window.config.shareCode,
+                xhrFields: {
+                    withCredentials: true
                 },
+                crossDomain: true,
+                data: params,
             }).done((res) => {
-                if (res && res.status == 1) {
-                    window._za_share_config = {
-                        link: res.link,
-                        title: res.title,
-                        richTitle: '',
-                        desc: res.desc,
-                        imgUrl: res.imgUrl,
-                    }
-                    console.log(window._za_share_config);
+                console.log('shareConfig data', res)
+                if (res && res.value) {
+                    me.props.setShareInfo(res.value);
+                    cb && cb(res.value);
                 }
-                window._za_app_config = $.extend(window._za_share_config || {}, wxcb);
-                window._za_share_config = $.extend(window._za_share_config || {}, wxcb);
-                //Object.assign not support in lower android device
-                cb && cb();
             }).fail((res) => {
-                window.config.machine ? _zax.ui.toast(sysinfo) : console.log(res);
+                me.cfg.debug ? _zax.ui.toast(sysinfo) : console.log(res);
             });
         }
     },
-    userLogin(me, mobile, code, cb) {
-        //通用登录
-        $.ajax({
-            url: window.config.boxApi + '/otp/registerAndLogin',
-            type: 'GET',
-            dataType: 'jsonp',
-            data: {
-                afs_scene: $('#afs_scene').val(),
-                afs_token: $('#afs_token').val(),
-                activityCode: window.config.activityCode,
-                bizOrigin: window.config.bizOrigin,
-                moduleKey: '',
-                mobileNo: mobile,
-                code: code,
-            },
-        }).done((res) => {
-            if (res) {
-                if (res.code == 200) {
-                    me.setUserCode(_zax.cookie.get('zaLoginCookieKey'));
-                    // me.setPopStatus('login', false);
-                    me.setPopStatus('login', false);
-                    me.setPopStatus('bind', false);
-                    //_zax.ui.toast("登录成功");
-                    cb && cb();
-                } else {
-                    _zax.ui.toast(res.msg || res.message);
-                }
-            }
-        }).fail((res) => {
-            window.config.machine ? _zax.ui.toast(sysinfo) : console.log(res);
+    // 用户登陆
+    userLogin(me, phone, smsCode) {
+        let shareOrigin = _util.url.get('shareCode') || '';
+
+        let params = Object.assign({}, {
+            phone,
+            smsCode,
+            shareOrigin,
+            ticket: _zax.cookie.get('dmAccountTicket') || '',
+            channel: me.cfg.channelId,
+        }, me.cfg.antifraud.tail);
+
+        return this.ajaxCommon(me, {
+            url: me.cfg.gApi + '/dm-account/otp/registerAndLogin',
+            data: params,
+            method: 'POST',
         });
     },
-    sendVerifyCode(me, mobile) {
-        //获取验证码
-        $.ajax({
-            url: window.config.boxApi + '/sms/sendSmsCode',
-            type: 'GET',
-            dataType: 'jsonp',
+    // 刷新token
+    refreshAccessKey(me) {
+        let params = Object.assign({}, me.cfg.antifraud.tail);
+        if (!_zax.cookie.get(me.cfg.token)) {
+            return;
+        }
+        return this.ajaxCommon(me, {
+            url: me.cfg.gApi + '/dm-account/otp/refreshAccessKey',
+            data: params,
+            method: 'POST',
+        });
+    },
+    // 获取验证码
+    getVerifyCode(me, phone) {
+        return this.ajaxCommon(me, {
+            url: me.cfg.gApi + '/dm-account/otp/sendSmsCode',
+            method: 'POST',
             data: {
-                bizOrigin: window.config.bizOrigin,
-                activityCode: window.config.activityCode,
-                moduleKey: '',
-                afs_scene: $('#afs_scene').val(),
-                afs_token: $('#afs_token').val(),
-                mobileNo: mobile,
+                phone
             }
-        }).done((res) => {
-            if (res) {
-                _zax.ui.toast(res.msg || res.message);
-            }
-        }).fail((res) => {
-            window.config.machine ? _zax.ui.toast(sysinfo) : console.log(res);
         });
     },
 }
