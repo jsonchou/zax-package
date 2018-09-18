@@ -17,15 +17,12 @@ export default {
                     me.setWeixinMask(false);
                 },
             };
+            let params = $.extend({}, me.cfg.antifraud.tail, { activityCode: me.shareCode });
             $.ajax({
                 url: '/baseScreen/getShareLink.json',
                 type: 'POST',
                 dataType: 'json',
-                data: {
-                    afs_scene: $('#afs_scene').val(),
-                    afs_token: $('#afs_token').val(),
-                    activityCode: me.cfg.activityCode,
-                },
+                data: params,
             }).done((res) => {
                 if (res && res.status == 1) {
                     window._za_share_config = {
@@ -48,31 +45,19 @@ export default {
     },
     userLogin(me, mobile, code, cb) {
         //通用登录
+        let params = $.extend({}, me.cfg.antifraud.tail, { mobileNo: mobile, code });
         $.ajax({
-            url: '/otp/otpLoginAndRegisterScreen/otpLoginAndRegister.json',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                afs_scene: $('#afs_scene').val(),
-                afs_token: $('#afs_token').val(),
-                activityCode: me.cfg.activityCode,
-                bizOrigin: me.cfg.bizOrigin,
-                moduleKey: '',
-                mobilePhone: mobile,
-                smsCode: code,
-            },
+            url: me.cfg.boxApi + '/otp/registerAndLogin',
+            type: 'GET',
+            dataType: 'jsonp',
+            data: params,
         }).done((res) => {
             if (res) {
                 if (res.isSuccess) {
                     me.setUserCode(_zax.cookie.get('zaLoginCookieKey'));
                     me.setPopStatus('login', false);
-                    //_zax.ui.toast("登录成功");
-                    if (me.pageName == 'spree' || me.pageName == 'index') {
-                        me.service.checkUser(me, mobile, cb)
-                    } else if (me.pageName == 'ups') {
-                        //重新调用抽奖红包接口
-                        me.service.upsDraw(me, cb)
-                    }
+                    _zax.ui.toast("登录成功");
+                    cb && cb();
                 } else {
                     _zax.ui.toast(res.msg || res.message);
                 }
@@ -83,18 +68,12 @@ export default {
     },
     sendVerifyCode(me, mobile) {
         //获取验证码
+        let params = $.extend({ mobileNo: mobile, }, me.cfg.antifraud.tail);
         $.ajax({
-            url: '/common/messageScreen/sendCodeMsg.json',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                afs_scene: $('#afs_scene').val(),
-                afs_token: $('#afs_token').val(),
-                bizOrigin: me.cfg.bizOrigin,
-                activityCode: me.cfg.activityCode,
-                moduleKey: '',
-                mobilePhone: mobile,
-            }
+            url: me.cfg.boxApi + '/sms/sendSmsCode',
+            type: 'GET',
+            dataType: 'jsonp',
+            data: params,
         }).done((res) => {
             if (res) {
                 _zax.ui.toast(res.msg || res.message);
