@@ -5,7 +5,7 @@ require("babel-polyfill");
 import React, { Component, PureComponent } from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import { createBrowserHistory, createHashHistory } from 'history';
 
 import SDK from "../../_base/sdk";
@@ -19,7 +19,6 @@ import mixins from './api/mixin';
 import store from './redux/store/index';
 // LifeCycleComponent 为了模拟vue-router的全局守卫(beforeEach和afterEach)
 import LifeCycleComponent from './components/LifeCycle';
-import NoMatch from './pages/NoMatch';
 
 import './api/directive';
 
@@ -129,7 +128,7 @@ util.event.antifraud(true, config.antifraud.provider, "webactivity", config.env,
                                     <LifeCycleComponent {...props} Item={item} />} />
                                 )
                         }
-                        <Route component={NoMatch} />
+                        <Redirect to="/" />
                     </Switch>
                 </Router>
             </App>

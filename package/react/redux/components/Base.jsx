@@ -4,31 +4,30 @@ import connect from './connect';
 class Base extends PureComponent {
     componentWillMount() {
         console.log('Base component will mount');
-        let me = this;
         // 引入ilog
         _zax.use(["ilog"], () => {
         });
-        const token = _zax.cookie.get(me.cfg.token);
-        token && me.props.setUserCode(token);
+        const token = _zax.cookie.get(this.cfg.token);
+        token && this.props.setUserCode(token);
 
         //14分钟refershAccessKey
         setInterval(async () => {
-            let ck = _zax.cookie.get(me.cfg.token);
-            const { dmAccountTicket, dmNoRedirect } = me.storage.cookieNames;
+            let ck = _zax.cookie.get(this.cfg.token);
+            const { dmAccountTicket, dmNoRedirect } = this.storage.cookieNames;
             if (ck) {
                 try {
-                    let res = await me.service.refreshAccessKey(me)
+                    let res = await this.service.refreshAccessKey.call();
                     if (res.code == 200) {
-                        me.props.setUserCode(ck);
+                        this.props.setUserCode(ck);
                     } else {
-                        me.props.setUserCode("");
-                        _zax.cookie.del(me.cfg.token);
+                        this.props.setUserCode("");
+                        _zax.cookie.del(this.cfg.token);
                         _zax.cookie.del(dmAccountTicket);
                         _zax.cookie.del(dmNoRedirect);
                     }
                 } catch(err) {
-                    me.props.setUserCode("");
-                    _zax.cookie.del(me.cfg.token);
+                    this.props.setUserCode("");
+                    _zax.cookie.del(this.cfg.token);
                     _zax.cookie.del(dmAccountTicket);
                     _zax.cookie.del(dmNoRedirect);
                     console.warn('err', err);
@@ -36,10 +35,6 @@ class Base extends PureComponent {
                 
             }
         }, 1000 * 60 * 14);
-    }
-
-    componentDidMount() {
-        console.log('Base component did mount');
     }
     
     render() {

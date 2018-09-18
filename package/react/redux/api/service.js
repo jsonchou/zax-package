@@ -1,13 +1,13 @@
 const sysinfo = 'server api crashed';
 
-export default {
-    ajaxCommon(me, params = {
+const Service = {
+    ajaxCommon(params = {
         url: '',
         method: 'GET',
         data: {},
     }) {
         return new Promise((resolve, reject) => {
-            let data = Object.assign({}, me.cfg.antifraud.tail, params.data);
+            let data = Object.assign({}, this.cfg.antifraud.tail, params.data);
             $.ajax({
                 url: params.url,
                 type: params.type || params.method || 'GET',
@@ -31,38 +31,19 @@ export default {
                     reject(res);
                 }
             }).fail((res) => {
-                me.cfg.debug ? _zax.ui.toast(sysinfo) : console.log(res)
+                this.cfg.debug ? _zax.ui.toast(sysinfo) : console.log(res)
                 reject(res);
             });
         })
     },
-    shareConfig(me, cb) {
+    shareConfig() {
         //分享前置信息
-        if (_zax.device.app || _zax.device.weixin) {
-            let params = $.extend({}, me.cfg.antifraud.tail);
-
-            $.ajax({
-                url: me.cfg.boxApi + '/mgm/getShareInfo',
-                type: 'POST',
-                dataType: 'json',
-                xhrFields: {
-                    withCredentials: true
-                },
-                crossDomain: true,
-                data: params,
-            }).done((res) => {
-                console.log('shareConfig data', res)
-                if (res && res.value) {
-                    me.props.setShareInfo(res.value);
-                    cb && cb(res.value);
-                }
-            }).fail((res) => {
-                me.cfg.debug ? _zax.ui.toast(sysinfo) : console.log(res);
-            });
-        }
+        return Service.ajaxCommon.call( this, {
+            url: this.cfg.boxApi + '/mgm/getShareInfo',
+        });
     },
     // 用户登陆
-    userLogin(me, phone, smsCode) {
+    userLogin(phone, smsCode) {
         let shareOrigin = _util.url.get('shareCode') || '';
 
         let params = Object.assign({}, {
@@ -70,31 +51,29 @@ export default {
             smsCode,
             shareOrigin,
             ticket: _zax.cookie.get('dmAccountTicket') || '',
-            channel: me.cfg.channelId,
-        }, me.cfg.antifraud.tail);
+            channel: this.cfg.channelId,
+        });
 
-        return this.ajaxCommon(me, {
-            url: me.cfg.gApi + '/dm-account/otp/registerAndLogin',
+        return Service.ajaxCommon.call( this, {
+            url: this.cfg.gApi + '/dm-account/otp/registerAndLogin',
             data: params,
             method: 'POST',
         });
     },
     // 刷新token
-    refreshAccessKey(me) {
-        let params = Object.assign({}, me.cfg.antifraud.tail);
-        if (!_zax.cookie.get(me.cfg.token)) {
+    refreshAccessKey() {
+        if (!_zax.cookie.get(this.cfg.token)) {
             return;
         }
-        return this.ajaxCommon(me, {
-            url: me.cfg.gApi + '/dm-account/otp/refreshAccessKey',
-            data: params,
+        return Service.ajaxCommon.call( this, {
+            url: this.cfg.gApi + '/dm-account/otp/refreshAccessKey',
             method: 'POST',
         });
     },
     // 获取验证码
-    getVerifyCode(me, phone) {
-        return this.ajaxCommon(me, {
-            url: me.cfg.gApi + '/dm-account/otp/sendSmsCode',
+    getVerifyCode(phone) {
+        return Service.ajaxCommon.call( this, {
+            url: this.cfg.gApi + '/dm-account/otp/sendSmsCode',
             method: 'POST',
             data: {
                 phone
@@ -102,3 +81,5 @@ export default {
         });
     },
 }
+
+export default Service;

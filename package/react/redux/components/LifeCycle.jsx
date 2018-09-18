@@ -18,8 +18,7 @@ export default class LifeCycleComponent extends Component {
 
         document.title = Item.meta.title || config.biz.title || '众安保险'; //动态设置标题
 
-        Share.hideIcon();
-        // store._vm.shareInfo.success = null;
+        _zax.device.app && Share.hideIcon();
 
         try {
             _zax.device.app && SDK('setNavigationBarTitle', {
