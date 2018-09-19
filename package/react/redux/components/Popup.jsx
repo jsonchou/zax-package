@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import Base from './Base';
 import Portal from './Portal';
-import Login from './Login';
-import WeixinMask from './WeixinMask';
-import Rule from './Rule';
+import Login from './Login/Login';
+import WeixinMask from './WeixinMask/WeixinMask';
+import Rule from './Rule/Rule';
 import Transition from './transition';
 import connect from './connect';
 

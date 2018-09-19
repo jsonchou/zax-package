@@ -5,7 +5,7 @@ class IndexPage extends PureComponent {
 
     handleLogin = () => {
         this.props.setPopStatus({
-            login: true
+            login: true,
         });
     }
 

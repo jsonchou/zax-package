@@ -19,8 +19,10 @@ import mixins from './api/mixin';
 import store from './redux/store/index';
 // LifeCycleComponent 为了模拟vue-router的全局守卫(beforeEach和afterEach)
 import LifeCycleComponent from './components/LifeCycle';
-
 import './api/directive';
+
+// 引入样式
+import './scss/main.scss';
 
 // 微信静默授权无限前置
 if (_zax.device.weixin) {
@@ -147,6 +149,3 @@ util.event.antifraud(true, config.antifraud.provider, "webactivity", config.env,
         document.getElementById('app')
     );
 });
-// if (typeof Object.assign != 'function') {
-//     _util.file.load('https://static.zhongan.com/website/assets/libs/polyfills/object-assign.js')
-// }
