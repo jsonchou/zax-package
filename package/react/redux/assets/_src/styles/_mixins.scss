@@ -1,9 +1,0 @@
-@mixin bg($u, $w, $h, $r:no-repeat ) { width: r($w); height: r($h); background: url('../images/#{$u}'); background-position: center center; background-repeat: $r; background-size: r($w) r($h); }
-
-@mixin pop($p:absolute) { position: $p; left: 50%; top: 50%; -webkit-transform: translate3d(-50%, -50%, 0); }
-
-@mixin flex($j:center,$a:center) { display: flex; justify-content: $j; align-items: $a; }
-
-@mixin wh($w,$h){width:r($w); height:r($h); }
-
-@function r($pixels,$font_size:100) { @if $pixels != 0 { @return $pixels / $font_size+rem; } @else { @return $pixels; } }
