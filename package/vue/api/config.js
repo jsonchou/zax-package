@@ -1,38 +1,72 @@
 // base config
-const machine = "";
-const debug = machine ? true : false;
-const spaMode = "__spaMode__"; //vue react
-const spaDir = "__spaDir__"; //20161014
+const machine = "-uat";
+const machineBox = "-uat";
+const debug = !!machine;
 
-// const assetsPath = '';
-// relative config
-const assetsPath = debug ? `http://__localIP__:__localPORT__/${spaMode}/${spaDir}` : `//static.zhongan.com/website/assets/subject/${spaMode}/${spaDir}`;
+let gApi = '';
+let travelUrl = "";
+if (machineBox.indexOf('-test') > -1) {
+    gApi = `https://mgw-daily.zhongan.com/appapi`;
+    travelUrl = `https://travel-dev.zhongan.com`;
+} else if (machineBox === '-uat') {
+    gApi = `https://gwbk-uat.zhongan.com/appapi`;
+    travelUrl = `https://travel-uat.zhongan.com`;
+} else {
+    gApi = `https://gwbk.zhongan.com/appapi`;
+    travelUrl = `https://travel.zhongan.com`;
+}
+
+let env = '';
+if(machine.includes('test')) {
+    env = 'test';
+} else if(machine.includes('uat')) {
+    env = 'uat';
+} else {
+    env = '';
+}
+
+// https://wiki.zhonganonline.com/pages/viewpage.action?pageId=21396917
 
 module.exports = {
+    ftp: true, // 是否通过脚本上传html文件(true 上传 false 不上传)
+    manual: false,//手动，自动，默认自动（从_base/tmpl覆盖到开启的工程里面）
+    wxenv: env,
+    wxQuietAuthApi: 'https://gwbk.zhongan.com/appapi/dm-account/wechat/quietauthorize', // 微信静默授权url
+    wxAuthApi: 'https://gwbk.zhongan.com/appapi/dm-account/wechat/authorize', // 微信手动授权url
     debug,
+    antifraud: {
+        provider: 'seraph', //seraph,pointman,3rd
+        tail: {}
+    },
     router: {
         split: false, //是否使用路由方式代码分割，超过10条路由，建议采用，默认为false
         mode: 'hash', //当前构建环境（单webpack多spa）不能很好支持browser模式，（单webpack单spa）比较适合browser模式（修改路由path层级+Nginx伪静态路由配置部署）
     },
+    biz: {
+        //业务配置文件
+        title: '',
+    },
     machine,
+    machineBox,
+    travelUrl,
     domain: `//evt${machine}.zhongan.com`,
-    activityCode: 'SSXLHDZY',
-    shareCode: 'SSXLHD2',
+    bizOrigin: '',
+    activityCode: '',
+    channelId: 8,
     token: 'zaLoginCookieKey',
     loginUrl: `https://login${machine}.zhongan.com/mobile/login.htm?sourceApp=8&target=http://a${machine}.zhongan.com/open/member/loginJump?logincallback=`,
-    appUrl: 'https://static.zhongan.com/website/app/html/downLoadLink/build/html/index.html?channel=APPSSXLHD',
-    assetsPath,
-    bizOrigin: '',
-    api: ``,
-    boxApi: `//mip${machine}.zhongan.com`,
-    zaapp: {
-        scorelist: 'zaapp://zai.scorelist?' //列表
-    },
-    appconfig: {},
-    share: {},
-    surfix: '',
-    prefix: `za_${spaDir}_`,
-    __daddy__: [
-        { search: '__routerMode__', replace: { 'router.split==true': 'router-split', 'router.split==false': 'router-common' }, regexMode: 'ig' },
-    ]
+    appUrl: 'https://static.zhongan.com/website/app/html/downLoadLink/build/html/index.html?channel=',
+    gApi,
+    boxApi: `//mip${machineBox}.zhongan.com`,
+    wxApi: `//weixin.zhongan.com/weixin${debug ? '_dev' : ''}`,
+    assetsPath: `//__spaAssets__/__spaMode__/__spaDir__/assets`,
+    __daddy__: [{
+        search: '__routerMode__',
+        replace: {
+            'router.split==true': 'router-split',
+            'router.split==false': 'router-common'
+        },
+        regexMode: 'ig'
+    }],
+
 }

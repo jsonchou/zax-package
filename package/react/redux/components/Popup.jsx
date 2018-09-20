@@ -1,13 +1,14 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, PureComponent } from 'react';
 import Base from './Base';
 import Portal from './Portal';
 import Login from './Login/Login';
 import WeixinMask from './WeixinMask/WeixinMask';
 import Rule from './Rule/Rule';
+import EndMask from './EndMask/EndMask';
 import Transition from './transition';
 import connect from './connect';
 
-class Popup extends Base {
+class Popup extends PureComponent {
 
     handleClose = (key) => {
         this.props.setPopStatus({
@@ -36,6 +37,10 @@ class Popup extends Base {
                 {
                     popStatus.rule &&
                     <Portal><Rule handleClose={()=>{ this.handleClose('rule') }} /></Portal>
+                }
+                {
+                    popStatus.endMask &&
+                    <Portal><EndMask handleClose={()=>{ this.handleClose('endMask') }} /></Portal> 
                 }
             </Fragment>
                 

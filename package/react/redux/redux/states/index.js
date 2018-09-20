@@ -6,6 +6,7 @@ export default {
         login: false,
         weixinmask: false,
         rule: false,
+        endMask: false,
     },
     shareInfo: { // 分享信息
         link: '',

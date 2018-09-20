@@ -1,13 +1,16 @@
-export const PAGE_NAME = 'PAGE_NAME';
-export const USER_CODE = "USER_CODE";
-export const USER_TYPE = "USER_TYPE";
-export const USER_BTN = "USER_BTN";
+//change camel way to uppercase constant way
 
-export const POP_STATUS = 'POP_STATUS';
-export const OPPS_STATUS = 'OPPS_STATUS';
-export const LOTTERY_INFO = "LOTTERY_INFO";
+import util from '../api/util'
+import state from './state'
 
-export const DEVICE_TYPE = "DEVICE_TYPE";
-export const WEIXIN_MASK = "WEIXIN_MASK";
+let constants = {
+}
 
-export const ACTIVITY_CODE = "ACTIVITY_CODE";
+Object.keys(state).map(item => {
+    let cnt = util.string.constantcase(item);
+    constants[cnt] = cnt;
+})
+
+// console.log('constants', constants)
+
+export default constants;

@@ -1,36 +1,13 @@
-export function pageName(state) {
-    return state.pageName;
-}
+import types from './mutation-types'
+import util from '../api/util'
 
-export function popStatus(state) {
-    return state.popStatus;
-}
+const getters = {};
 
-export function userCode(state) {
-    return state.userCode;
-}
-export function userType(state) {
-    return state.userType;
-}
-export function userBtn(state) {
-    return state.userBtn;
-}
-export function deviceType(state) {
-    return state.deviceType;
-}
+Object.keys(types).map(item => {
+    let camel = util.string.camelcase(item);
+    getters[camel] = function (state) {
+        return state[camel];
+    }
+})
 
-export function weixinMask(state) {
-    return state.weixinMask;
-}
-
-export function oppsStatus(state) {
-    return state.oppsStatus;
-}
-
-export function lotteryInfo(state) {
-    return state.lotteryInfo;
-}
-
-export function activityCode(state) {
-    return state.activityCode;
-}
+export default getters;

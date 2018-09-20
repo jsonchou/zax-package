@@ -5,14 +5,14 @@ class IndexPage extends PureComponent {
 
     handleLogin = () => {
         this.props.setPopStatus({
-            login: true,
+            login: true
         });
     }
 
     render() {
         return (
             <div>
-                <button 
+                <button
                     style={{
                         display: 'block',
                         fontSize: '.28rem',
@@ -25,4 +25,4 @@ class IndexPage extends PureComponent {
     }
 }
 
-export default connect(IndexPage, [ 'counter', 'popStatus' ]);
+export default connect(IndexPage);
