@@ -13,7 +13,10 @@ const router = new VueRouter({
             keepAlive: false,
             title: '',
         }
-    }, ]
+    }, {
+        path: "*",
+        redirect: "/"
+    }]
 })
 
 export default router;
