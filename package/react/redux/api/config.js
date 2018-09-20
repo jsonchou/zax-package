@@ -28,6 +28,7 @@ if(machine.includes('test')) {
 // https://wiki.zhonganonline.com/pages/viewpage.action?pageId=21396917
 
 module.exports = {
+    ftp: true,
     manual: false,//手动，自动，默认自动（从_base/tmpl覆盖到开启的工程里面）
     wxenv: env,
     wxQuietAuthApi: 'https://gwbk.zhongan.com/appapi/dm-account/wechat/quietauthorize', // 微信静默授权url

@@ -1,15 +1,22 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
-import Index from '../components/Index.vue'
-
+import index from '../pages/index';
 const router = new VueRouter({
     mode: 'hash', //history
     routes: [{
         path: '/',
-        component: Index,
-        name: 'index'
+        component: index,
+        name: 'index',
+        meta: {
+            share: true,
+            keepAlive: false,
+            title: '',
+        }
+    }, {
+        path: "*",
+        redirect: "/"
     }]
 })
 
-export default router
+export default router;

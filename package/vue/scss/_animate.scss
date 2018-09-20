@@ -1,0 +1,25 @@
+// 缩放动画
+@keyframes scale {    0% { transform: scale(0); }
+    to { transform: scale(1); }
+}
+
+.scale-enter-active { animation: scale .3s forwards; }
+.scale-leave-active { animation: scale 0.1s forwards reverse; }
+
+// 透明度渐变 动画
+@keyframes opacity {    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.opacity-enter-active  { animation: opacity .3s forwards; }
+
+.opacity-leave-active { animation: opacity .3s forwards reverse; }
+
+// slide 动画
+@keyframes slide {    0% { transform: translate(-50%, -300%); }
+    to { transform: translate(-50%, -50%); }
+}
+
+.slide-enter-active  { animation: slide .3s forwards; }
+
+.slide-leave-active { animation: slide .3s forwards reverse; }

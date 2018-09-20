@@ -1,43 +1,27 @@
-import {set } from 'vue'
-import * as types from './mutation-types'
+import types from './mutation-types'
+import util from '../api/util'
 
-export default {
-    [types.PAGE_NAME](state, name) {
-        state.pageName = name;
-    },
-    [types.POP_STATUS](state, tag, status) {
-        if (status) {
-            _zax.ui.mask.show(() => {
-                state.popStatus[tag] = status;
+const mutations = {};
+
+Object.keys(types).map(item => {
+    mutations[item] = function (state, payload) {
+        let storeKey = util.string.camelcase(item); //POP_STATUS=>popStatus
+        let tar = state[storeKey]; //1
+
+        if (item === 'POP_STATUS') {
+            let vals = Object.keys(payload).reduce((v, k) => v.concat([payload[k]]), []);
+            _zax.ui.mask[vals.indexOf(true) >= 0 ? 'show' : 'hide'](() => {
+                Object.assign(tar, payload);
             });
         } else {
-            _zax.ui.mask.hide(() => {
-                state.popStatus[tag] = status;
-            });
+            if (Object.prototype.toString.call(payload) === '[object Object]') {
+                Object.assign(tar, payload);
+            } else {
+                state[storeKey] = payload;
+            }
         }
-    },
-    [types.OPPS_STATUS](state, tag, status) {
-        state.oppsStatus[tag] = status;
-    },
-    [types.USER_CODE](state, code) {
-        state.userCode = code;
-    },
-    [types.USER_BTN](state, code) {
-        state.userBtn = code;
-    },
-    [types.USER_TYPE](state, type) {
-        state.userType = type;
-    },
-    [types.DEVICE_TYPE](state, dvc) {
-        state.deviceType = dvc;
-    },
-    [types.WEIXIN_MASK](state, status) {
-        state.weixinMask = status;
-    },
-    [types.LOTTERY_INFO](state, tag, status) {
-        state.lotteryInfo[tag] = status;
-    },
-    [types.ACTIVITY_CODE](state, status) {
-        state.activityCode = status;
+
     }
-}
+})
+
+export default mutations;
