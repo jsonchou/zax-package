@@ -1,5 +1,4 @@
 import React, { Fragment, PureComponent } from 'react';
-import Base from './Base';
 import Portal from './Portal';
 import Login from './Login/Login';
 import WeixinMask from './WeixinMask/WeixinMask';

@@ -95,12 +95,11 @@ class Login extends PureComponent {
             this.loging = false;
 
             if(Object.keys(o).length > 0) {
-                const { setUserCode, setPopStatus, setExecLoginCallback } = this.props;
+                const { setUserCode, setPopStatus } = this.props;
                 setUserCode(o.token || '');
                 setPopStatus({
                     login: false
                 });
-                setExecLoginCallback(true);
                 _zax.ui.toast('登录成功');
             }
         }

@@ -13,9 +13,6 @@ export default class LifeCycleComponent extends Component {
         // 设置页面名称
         store.dispatch(actions.setPageName(Item.page));
 
-        //scroll to top
-        window.scrollTo(0, 0);
-
         document.title = Item.meta.title || config.biz.title || '众安保险'; //动态设置标题
 
         _zax.device.app && Share.hideIcon();
