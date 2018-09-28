@@ -27,8 +27,7 @@ import './scss/main.scss';
 // 微信静默授权无限前置
 if (_zax.device.weixin) {
     const { dmAccountTicket, dmNoRedirect } = storage.cookieNames;
-    if (_zax.cookie.get(config.token) || _zax.cookie.get(dmAccountTicket) || _zax.cookie.get(dmNoRedirect)) {
-    } else {
+    if (!_zax.cookie.get(config.token) && !_zax.cookie.get(dmAccountTicket) && !_zax.cookie.get(dmNoRedirect)) {
         let url = location.href;
         url = _util.url.set(url, 'channel', config.channelId);
         url = encodeURIComponent(url);

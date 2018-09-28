@@ -16,7 +16,7 @@ class Base extends PureComponent {
             const { dmAccountTicket, dmNoRedirect } = this.storage.cookieNames;
             if (ck) {
                 try {
-                    let res = await this.service.refreshAccessKey.call();
+                    let res = await this.service.refreshAccessKey.call(this);
                     if (res.code == 200) {
                         this.props.setUserCode(ck);
                     } else {
