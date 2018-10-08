@@ -147,4 +147,9 @@ util.event.antifraud(true, config.antifraud.provider, "webactivity", config.env,
         </Provider>,
         document.getElementById('app')
     );
+
+    // https://github.com/webpack-contrib/webpack-hot-middleware/issues/43#issuecomment-155697146
+    if (module.hot) {
+        module.hot.accept();
+    }
 });
