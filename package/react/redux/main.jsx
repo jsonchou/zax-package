@@ -35,12 +35,20 @@ if (_zax.device.weixin) {
     }
 }
 
+if (_zax.device.app) {
+    config.device = 'app';
+} else if (_zax.device.weixin) {
+    config.device = 'weixin';
+} else {
+    config.device = 'browser';
+}
+
 //debug
 config.debug = config.debug || !!_util.url.get('_zax');
 
 //config 补充
 config.bizOrigin = _util.url.get('bizOrigin');
-config.activityCode = _util.url.get('activityCode');
+config.activityCode = _util.url.get('activityCode') || location.pathname.replace('/r/','').replace('/react/','').replace('/','');
 
 if (config.bizOrigin) {
     config.appUrl += config.bizOrigin.toUpperCase();
