@@ -1,15 +1,14 @@
 import React, { Fragment, PureComponent } from 'react';
-import Portal from './Portal';
 import Login from './Login/Login';
 import WeixinMask from './WeixinMask/WeixinMask';
 import Rule from './Rule/Rule';
 import EndMask from './EndMask/EndMask';
-import Transition from './transition';
 import connect from './connect';
+import CSSTransition from './CssTransition';
 
 class Popup extends PureComponent {
 
-    handleClose = (key) => {
+    onClose = (key) => {
         this.props.setPopStatus({
             [key]: false
         });
@@ -19,30 +18,33 @@ class Popup extends PureComponent {
         const { popStatus = { } } = this.props;
         return (
             <Fragment>
-                {
-                    popStatus.login &&
-                    <Portal>
-                        <Transition>
-                            <Login
-                                handleClose={ ()=> { this.handleClose('login') } } 
-                            />
-                        </Transition>
-                    </Portal> 
-                }
-                {
-                    popStatus.weixinmask &&
-                    <Portal><WeixinMask handleClose={()=>{ this.handleClose('weixinmask') }} /></Portal> 
-                }
-                {
-                    popStatus.rule &&
-                    <Portal><Rule handleClose={()=>{ this.handleClose('rule') }} /></Portal>
-                }
-                {
-                    popStatus.endMask &&
-                    <Portal><EndMask handleClose={()=>{ this.handleClose('endMask') }} /></Portal> 
-                }
+                <CSSTransition
+                    visible={popStatus.login}
+                >
+                    <Login
+                        onClose={ ()=> { this.onClose('login') } } 
+                    />
+                </CSSTransition>
+                <CSSTransition
+                    visible={popStatus.weixinmask}
+                    maskClassNames="opacity"
+                    contentClassNames="opacity"
+                >
+                    <WeixinMask onClose={()=>{ this.onClose('weixinmask') }} />
+                </CSSTransition>
+                <CSSTransition
+                    visible={popStatus.rule}
+                >
+                    <Rule onClose={()=>{ this.onClose('rule') }} />
+                </CSSTransition>
+                <CSSTransition
+                    visible={popStatus.endMask}
+                    maskClassNames="opacity"
+                    contentClassNames="opacity"
+                >
+                    <EndMask onClose={()=>{ this.onClose('endMask') }} />
+                </CSSTransition>
             </Fragment>
-                
         );
     }
 }

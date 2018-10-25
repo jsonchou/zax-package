@@ -126,12 +126,12 @@ class Login extends PureComponent {
     }
 
     render() {
-        const { handleClose } = this.props; 
+        const { onClose } = this.props; 
         const { phone, code, ticker } = this.state;
 
         return (
             <div id="login" className="md-popup_login">
-                <i className="md-popup_close" onClick={ handleClose }>
+                <i className="md-popup_close" onClick={ onClose }>
                 </i>
                 <h2>登录</h2>
                 <form className="md-popup_login_form">

@@ -1,25 +1,35 @@
-@keyframes opacity-enter {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
 .opacity-enter {
-    animation: opacity-enter .3s forwards;
+    opacity: 0;
 }
 
-@keyframes transition-enter {
-    from {
-        transform: translate3d(-50%, -300%, 0);
-    }
-    to {
-        transform: translate3d(-50%, -50%, 0);
-    }
+.opacity-enter-done {
+    opacity: 1;
+    transition: opacity 300ms;
 }
 
-.transition-enter {
-    animation: transition-enter .3s ease-in-out forwards;
+.opacity-exit {
+    opacity: 1;
+}
+
+.opacity-exit-active {
+    opacity: 0;
+    transition: opacity 500ms;
+}
+
+.slide-enter {
+    transform: translate3d(-50%, -300%, 0) !important;
+}
+
+.slide-enter-done {
+    transform: translate3d(-50%, -50%, 0) !important;
+    transition: transform 300ms;
+}
+
+.slide-exit {
+    transform: translate3d(-50%, -50%, 0) !important;
+}
+
+.slide-exit-active {
+    transform: translate3d(-50%, 300%, 0) !important;
+    transition: transform 500ms;
 }
