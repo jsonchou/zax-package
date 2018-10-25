@@ -4,6 +4,7 @@
     height: 100%;
     top: 0;
     left: 0;
+    z-index: 1000;
 }
 
 .md-popup_mask {
@@ -13,7 +14,8 @@
     right: 0;
     bottom: 0;
     z-index: 899;
-    background: rgba(0,0,0,.8);
+    background: rgba(0,0,0,.5);
+    opacity: 0;
 }
 
 .md-popup_content {
