@@ -3,7 +3,6 @@ require("babel-core/register");
 require("babel-polyfill");
 
 import React, { Component, PureComponent } from 'react';
-import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import { createBrowserHistory, createHashHistory } from 'history';
@@ -23,6 +22,8 @@ import './api/directive';
 
 // 引入样式
 import './scss/main.scss';
+
+const ReactDOM = require('react-dom');
 
 // 微信静默授权无限前置
 if (_zax.device.weixin) {
