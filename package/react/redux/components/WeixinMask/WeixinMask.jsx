@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import connect from '../connect';
+import connect from '../Connect';
 import './WeixinMask.scss';
 
 class WeixinMask extends PureComponent {

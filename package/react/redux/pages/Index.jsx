@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import connect from '../components/connect';
+import connect from '../components/Connect';
 
 class IndexPage extends PureComponent {
 

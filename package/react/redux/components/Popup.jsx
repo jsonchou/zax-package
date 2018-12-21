@@ -3,7 +3,7 @@ import Login from './Login/Login';
 import WeixinMask from './WeixinMask/WeixinMask';
 import Rule from './Rule/Rule';
 import EndMask from './EndMask/EndMask';
-import connect from './connect';
+import connect from './Connect';
 import CSSTransition from './CssTransition';
 
 class Popup extends PureComponent {
