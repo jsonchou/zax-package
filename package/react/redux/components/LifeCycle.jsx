@@ -9,10 +9,19 @@ export default class LifeCycleComponent extends Component {
 
     componentWillMount() {
         const { Item } = this.props;
+        
+        // 重置popStatus
+        let { popStatus } = store.getState();
+        Object.keys(popStatus).forEach(key=>{
+            popStatus[key] = false;
+        });
+        store.dispatch(actions.setPopStatus(popStatus));
 
+        // 页面滚动到顶部
+        window.scrollTo(0,0);
         // 设置页面名称
         store.dispatch(actions.setPageName(Item.page));
-
+        // 设置页面标题
         document.title = Item.meta.title || config.biz.title || '众安保险'; //动态设置标题
 
         _zax.device.app && Share.hideIcon();
