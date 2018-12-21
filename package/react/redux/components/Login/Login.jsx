@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import connect from '../connect';
+import connect from '../Connect';
 import './Login.scss';
 
 class Login extends PureComponent {

@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import Base from '../components/Base';
 import Popup from '../components/Popup';
-import connect from '../components/connect';
+import connect from '../components/Connect';
 
 class AppPage extends PureComponent {
 
