@@ -5,11 +5,10 @@ import actions from '../redux/actions';
 export default function Connect ( Component, keys ) {
 
     const mapStateToProps = state => {
-        let o = {};
+        let o = state;
         if($.type(keys) === 'array') {
-            // 如果keys为空数组把所有state都挂载到组件上
             if(keys.length === 0) {
-                o = state;
+                o = {};
             } else {
                 keys.forEach(key=>{
                     if($.type(state[key]) !== 'undefined') {
