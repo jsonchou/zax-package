@@ -23,24 +23,24 @@ module.exports = {
     },
     spaMode,
     spaDir,
-    kf: `http://kf${machine}.zhongan.com`,
+    kf: `http://kf${machine}.demo.com`,
     token: 'zaLoginCookieKey',
-    loginUrl: `https://login${machine}.zhongan.com/mobile/login.htm?sourceApp=8&target=http://a${machine}.zhongan.com/open/member/loginJump?logincallback=`,
+    loginUrl: `https://login${machine}.demo.com/mobile/login.htm?sourceApp=8&target=http://a${machine}.demo.com/open/member/loginJump?logincallback=`,
     cache: 1 / 24, //1小时
     api: '/baseScreen/v1',
-    boxApi: `//mip${machine}.zhongan.com`,
-    assetsPath: debug ? `http://__localIP__:__localPORT__/${spaMode}/${spaDir}/` : `//static.zhongan.com/website/assets/subject/${spaMode}/${spaDir}/`,
+    boxApi: `//mip${machine}.demo.com`,
+    assetsPath: debug ? `http://__localIP__:__localPORT__/${spaMode}/${spaDir}/` : `//static.demo.com/website/assets/subject/${spaMode}/${spaDir}/`,
     bizOrigin,
     activityCode,
     appconfig: {},
     share: {
-        link: 'https://m.zhongan.com',
+        link: 'https://m.demo.com',
         title: '感恩一路有你，惊喜福利在后面',
         richTitle: '',
         desc: '奋不顾身的拼，不怕险阻；义无反顾的冲，不畏荆棘；歇斯底里的跑，只因为。。。。。。',
-        imgUrl: 'https://m.zhongan.com/images/za.jpg'
+        imgUrl: 'https://m.demo.com/images/za.jpg'
     },
-    appUrl: `https://static.zhongan.com/website/app/html/downLoadLink/build/html/index.html?channel=${bizOrigin}`,
+    appUrl: `https://static.demo.com/website/app/html/downLoadLink/build/html/index.html?channel=${bizOrigin}`,
     surfix: '',
     prefix: `za_${spaDir}_`,
     __daddy__: [

@@ -11,8 +11,8 @@ $(() => {
 
 var pageModule = {
     config: {
-        prdLink: 'http://static.zhongan.com/website/app/html/downLoadLink/build/html/index.html?channel=XYJRJS',
-        assetsPath: '//static.zhongan.com/website/assets/subject/common/20171016/assets'
+        prdLink: 'http://static.demo.com/website/app/html/downLoadLink/build/html/index.html?channel=XYJRJS',
+        assetsPath: '//static.demo.com/website/assets/subject/common/20171016/assets'
     },
     init() {
     },

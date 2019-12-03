@@ -24,7 +24,7 @@ class WeixinMask extends Component {
         return (
             <div className="template-weixinmask" onClick={this.onClose} >
                 <div className={`md-weixinmask ${popStatus[tag] ? 'on' : ''}`}>
-                    <img src="//static.zhongan.com/website/assets/subject/vue/20161221/assets/images/weixin-mask.png" alt="" />
+                    <img src="//static.demo.com/website/assets/subject/vue/20161221/assets/images/weixin-mask.png" alt="" />
                 </div>
             </div>
         )

@@ -6,14 +6,14 @@ const debug = !!machine;
 let gApi = '';
 let travelUrl = "";
 if (machineBox.indexOf('-test') > -1) {
-    gApi = `https://mgw-daily.zhongan.com/appapi`;
-    travelUrl = `https://travel-dev.zhongan.com`;
+    gApi = `https://mgw-daily.demo.com/appapi`;
+    travelUrl = `https://travel-dev.demo.com`;
 } else if (machineBox === '-uat') {
-    gApi = `https://gwbk-uat.zhongan.com/appapi`;
-    travelUrl = `https://travel-uat.zhongan.com`;
+    gApi = `https://gwbk-uat.demo.com/appapi`;
+    travelUrl = `https://travel-uat.demo.com`;
 } else {
-    gApi = `https://gwbk.zhongan.com/appapi`;
-    travelUrl = `https://travel.zhongan.com`;
+    gApi = `https://gwbk.demo.com/appapi`;
+    travelUrl = `https://travel.demo.com`;
 }
 
 let env = '';
@@ -25,14 +25,14 @@ if(machine.includes('test')) {
     env = '';
 }
 
-// https://wiki.zhonganonline.com/pages/viewpage.action?pageId=21396917
+// https://wiki.demo.com/pages/viewpage.action?pageId=21396917
 
 module.exports = {
     ftp: true, // 是否通过脚本上传html文件(true 上传 false 不上传)
     manual: false,//手动，自动，默认自动（从_base/tmpl覆盖到开启的工程里面）
     wxenv: env,
-    wxQuietAuthApi: 'https://gwbk.zhongan.com/appapi/dm-account/wechat/quietauthorize', // 微信静默授权url
-    wxAuthApi: 'https://gwbk.zhongan.com/appapi/dm-account/wechat/authorize', // 微信手动授权url
+    wxQuietAuthApi: 'https://gwbk.demo.com/appapi/dm-account/wechat/quietauthorize', // 微信静默授权url
+    wxAuthApi: 'https://gwbk.demo.com/appapi/dm-account/wechat/authorize', // 微信手动授权url
     debug,
     antifraud: {
         provider: 'seraph', //seraph,pointman,3rd
@@ -49,16 +49,16 @@ module.exports = {
     machine,
     machineBox,
     travelUrl,
-    domain: `//evt${machine}.zhongan.com`,
+    domain: `//evt${machine}.demo.com`,
     bizOrigin: '',
     activityCode: '',
     channelId: 8,
     token: 'zaLoginCookieKey',
-    loginUrl: `https://login${machine}.zhongan.com/mobile/login.htm?sourceApp=8&target=http://a${machine}.zhongan.com/open/member/loginJump?logincallback=`,
-    appUrl: 'https://static.zhongan.com/website/app/html/downLoadLink/build/html/index.html?channel=',
+    loginUrl: `https://login${machine}.demo.com/mobile/login.htm?sourceApp=8&target=http://a${machine}.demo.com/open/member/loginJump?logincallback=`,
+    appUrl: 'https://static.demo.com/website/app/html/downLoadLink/build/html/index.html?channel=',
     gApi,
-    boxApi: `//mip${machineBox}.zhongan.com`,
-    wxApi: `//weixin.zhongan.com/weixin${debug ? '_dev' : ''}`,
+    boxApi: `//mip${machineBox}.demo.com`,
+    wxApi: `//weixin.demo.com/weixin${debug ? '_dev' : ''}`,
     assetsPath: `//__spaAssets__/__spaMode__/__spaDir__/assets`,
     __daddy__: [{
         search: '__routerMode__',

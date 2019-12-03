@@ -99,7 +99,7 @@ export default {
             } else if (way == "server") {
                 return new Promise(function (resolve, reject) {
                     $.ajax({
-                        url: `//mip.zhongan.com/venus/imgToBase64`,
+                        url: `//mip.demo.com/venus/imgToBase64`,
                         type: 'GET',
                         dataType: 'jsonp',
                         data: {
@@ -168,7 +168,7 @@ export default {
                 dunkey.run(module + '#' + (debug ? 'test' : 'prd') + '#' + code, //场景id
                     {
                         ana: {
-                            host: 'https://' + (debug ? 'test-' : '') + 'af.zhongan.io/trace.jsonp',
+                            host: 'https://' + (debug ? 'test-' : '') + 'af.demo.io/trace.jsonp',
                             path: ''
                         },
                         is_af: true, //是否以反欺诈模式接入

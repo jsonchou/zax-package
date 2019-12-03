@@ -54,8 +54,8 @@ if (config.bizOrigin) {
 }
 
 if (config.machine.indexOf('-uat') > -1) {
-    config.cmsApi = `//mgw-uat.zhongan.com`;
-    config.wxApi = `//weixin.zhongan.com/weixin_qa`;
+    config.cmsApi = `//mgw-uat.demo.com`;
+    config.wxApi = `//weixin.demo.com/weixin_qa`;
 }
 
 config.antifraud.tail.bizOrigin = config.bizOrigin;

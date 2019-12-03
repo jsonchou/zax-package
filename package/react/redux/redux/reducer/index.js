@@ -19,7 +19,7 @@ Object.keys(states).forEach(key=>{
                 payload[popup] = false;
                 //弹出app默认登录框，app拦截
                 //强制返回时，继续拦截
-                location.href = `https://login.zhongan.com/mobile/login.htm?sourceApp=8&v=${Date.now()}&target=${location.href}`
+                location.href = `https://login.demo.com/mobile/login.htm?sourceApp=8&v=${Date.now()}&target=${location.href}`
             } else if(_zax.device.weixin && inlogin) {
                 if(!_zax.cookie.get(config.token) && !_zax.cookie.get(storage.cookieNames.dmAccountTicket) ) {
                     _zax.ui.loading.show('跳转微信授权中...', 1000, ()=>{
